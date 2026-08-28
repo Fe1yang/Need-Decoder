@@ -138,6 +138,7 @@ The frozen catalog and sessions are derived from Amazon Reviews 2023 by McAuley 
 [DATA_ATTRIBUTION.md](DATA_ATTRIBUTION.md) and the organizer's
 [competition repository](https://github.com/TechJam2026/techjam-conversational-search).
 
-## Team contributions
+## Participant and contribution
 
-This section will be completed with each member's work before the Devpost submission.
+**Yu Feiyang** is the sole participant and built the project end to end: product concept, system
+design, implementation, testing, evaluation, documentation, and demo.
