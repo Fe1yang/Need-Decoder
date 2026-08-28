@@ -1,0 +1,15 @@
+{
+  "dataset": "data/public_set.jsonl",
+  "sample_count": 200,
+  "hit_rate_at_10": 0.985,
+  "mrr": 0.578768,
+  "mttc": 2.34,
+  "efficiency": 0.866,
+  "technical_score": 0.83933,
+  "scenario_hit_rate_at_10": {
+    "buying": 0.9875,
+    "browsing": 0.9875,
+    "intent_override": 0.966667,
+    "boundary": 1.0
+  }
+}
