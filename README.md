@@ -115,7 +115,7 @@ That diagnostic script is not imported by the agent and is never used at inferen
 - Network access during inference: **none**
 - Reported model tokens: **0**
 - External Python packages required by the agent: **none**
-- Full 200-session evaluation in the current development environment: roughly **28 seconds**
+- Full 200-session evaluation in the current development environment: roughly **30–35 seconds**
 
 The catalog index is built once when the agent starts. Search results and tokenized candidate fields
 are cached for the lifetime of the process.
