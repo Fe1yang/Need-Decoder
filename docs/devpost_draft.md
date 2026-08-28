@@ -63,7 +63,7 @@ retaining independently collected constraints, then reopen the clarification pla
 
 Retrieval also had to balance recall against latency. A broad evidence-only route added little to the
 public score but tripled evaluation time. Restricting it to conversations without a usable category
-kept Hit Rate@10 at 98.5% and reduced the 200-session run from roughly 90 seconds to 28 seconds in our
+kept Hit Rate@10 at 98.5% and reduced the 200-session run from roughly 90 seconds to about 34 seconds in our
 development environment.
 
 ## Limitations and next steps
