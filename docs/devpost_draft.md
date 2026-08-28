@@ -73,6 +73,7 @@ negative requirements need more structured handling. With more time, we would co
 offline reranker against a small calibrated semantic model, evaluate inference quality with human
 annotations, and add a consented long-term profile rather than treating every session in isolation.
 
-## Team contributions
+## Participant and contribution
 
-Add each registered team member and their concrete contribution before submission.
+**Yu Feiyang** is the sole participant and is responsible for the project concept, system design,
+implementation, testing, evaluation, documentation, and demo.
