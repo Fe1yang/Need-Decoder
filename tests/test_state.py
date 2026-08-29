@@ -63,6 +63,14 @@ class ConversationStateTests(unittest.TestCase):
 
         self.assertEqual(asked, ["feature", "material", "color", "size"])
 
+    def test_tracks_budget_and_exclusions_separately(self):
+        state = ConversationState(profile={})
+        state.ingest("I'm looking for Shoes. I want black, no leather, under $60.")
+
+        self.assertEqual(state.excluded_terms, {"leather"})
+        self.assertEqual(state.price_preference.maximum, 60.0)
+        self.assertIn("budget", state.observed_attributes)
+
 
 if __name__ == "__main__":
     unittest.main()

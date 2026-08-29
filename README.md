@@ -21,30 +21,30 @@ than a claim about the final ranking.
 
 | Metric | Official BM25 starter | Need Decoder |
 | --- | ---: | ---: |
-| Hit Rate@10 | 0.125 | **0.985** |
-| MRR | 0.068 | **0.579** |
-| MTTC (lower is better) | 9.81 | **2.34** |
-| Efficiency | 0.119 | **0.866** |
-| Technical Score | 0.107 | **0.839** |
+| Hit Rate@10 | 0.125 | **0.990** |
+| MRR | 0.068 | **0.610** |
+| MTTC (lower is better) | 9.81 | **2.06** |
+| Efficiency | 0.119 | **0.895** |
+| Technical Score | 0.107 | **0.857** |
 
-Scenario-level Hit Rate@10: Buying 98.75%, Browsing 98.75%, Intent Override 96.67%, and Boundary 100%.
+Scenario-level Hit Rate@10: Buying 98.75%, Browsing 98.75%, Intent Override 100%, and Boundary 100%.
 
 ## How it works
 
 The runtime has four small components:
 
-1. `ConversationState` separates category, explicit constraints, inferred needs, asked attributes,
-   and intent. An override replaces the earlier preference without throwing away useful answers to
-   later clarification questions.
+1. `ConversationState` separates category, explicit constraints, exclusions, numeric budget,
+   inferred needs, asked attributes, and intent. An override replaces the earlier preference without
+   throwing away useful answers to later clarification questions.
 2. The hidden-needs layer maps situational evidence to low-weight, explainable hypotheses. A
    hypothesis contains an attribute, value, confidence, and the evidence behind it.
 3. The question policy requests the attribute most likely to reduce uncertainty. It supports
    incremental slots—for example, asking whether there is another material requirement after the
    shopper has already mentioned leather. Aggregate profile tags can change the order of later
    questions, but they are never treated as hard product constraints.
-4. `CatalogSearch` narrows the 50,000-item catalog by category with SQLite FTS5, retrieves evidence
-   matches, and reranks candidates using field weights, inverse document frequency, exact constraint
-   coverage, and a weak popularity prior.
+4. `CatalogSearch` uses separate Buying and Browsing candidate routes over an in-memory SQLite FTS5
+   index. A field-aware reranker combines IDF, exact constraints, price compatibility, exclusions,
+   and a log-scaled popularity fallback.
 
 The inferred terms have a deliberately small weight. They can help distinguish otherwise similar
 items, but cannot override a stated color, material, size, or use case.
@@ -101,6 +101,13 @@ Run the human-readable demo:
 python3 demo.py
 ```
 
+The two prepared walkthroughs can also be run separately:
+
+```bash
+python3 demo.py --scenario hidden-needs
+python3 demo.py --scenario intent-override
+```
+
 To inspect one labeled public development session turn by turn:
 
 ```bash
@@ -128,9 +135,16 @@ every niche requirement. The deterministic design is useful for a three-day buil
 cheap, reproducible, and easy to debug; a production version should compare it with a calibrated
 semantic model on consented interaction data.
 
-The popularity feature is intentionally weak, but it can still favor established products when the
-conversation leaves several candidates indistinguishable. Price parsing and negative constraints
-are the next areas to strengthen.
+The popularity feature is log-scaled, but it can still favor established products when several
+candidates share the same catalog evidence. Budget and exclusion parsing handles common English
+forms; it is not yet a general semantic parser.
+
+## Submission material
+
+- [Evaluation notes](docs/evaluation_notes.md)
+- [Demo recording script](docs/demo_script.md)
+- [Devpost draft](docs/devpost_draft.md)
+- [Submission checklist](docs/submission_checklist.md)
 
 ## Data attribution
 

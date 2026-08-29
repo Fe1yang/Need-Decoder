@@ -3,7 +3,14 @@ from __future__ import annotations
 import re
 from dataclasses import asdict, dataclass, field
 
-from need_decoder.text import OVERRIDE_PATTERN, extract_category, extract_constraint
+from need_decoder.text import (
+    OVERRIDE_PATTERN,
+    PricePreference,
+    extract_category,
+    extract_constraint,
+    extract_excluded_terms,
+    parse_price_preference,
+)
 
 
 @dataclass(frozen=True)
@@ -23,6 +30,8 @@ class ConversationState:
     category: str | None = None
     constraints: list[str] = field(default_factory=list)
     hypotheses: list[NeedHypothesis] = field(default_factory=list)
+    excluded_terms: set[str] = field(default_factory=set)
+    price_preference: PricePreference | None = None
     asked_attributes: set[str] = field(default_factory=set)
     observed_attributes: set[str] = field(default_factory=set)
     intent: str = "browsing"
@@ -35,6 +44,8 @@ class ConversationState:
             self.observed_attributes.add("category")
 
         constraint = extract_constraint(message, self.category)
+        excluded_terms = extract_excluded_terms(message)
+        price_preference = parse_price_preference(message)
         was_overridden = bool(OVERRIDE_PATTERN.search(message))
         if was_overridden:
             # The opening preference is the value being replaced. Constraints
@@ -42,15 +53,24 @@ class ConversationState:
             # dropping the entire state would force the customer to repeat it.
             self.constraints = self.constraints[1:]
             self.hypotheses.clear()
+            self.excluded_terms.clear()
+            self.price_preference = None
             self.asked_attributes.clear()
             self.observed_attributes = {"category"} if self.category else set()
             for preserved_constraint in self.constraints:
                 self.observed_attributes.update(detect_attributes(preserved_constraint))
+                self.excluded_terms.update(extract_excluded_terms(preserved_constraint))
+                preserved_price = parse_price_preference(preserved_constraint)
+                if preserved_price:
+                    self.price_preference = preserved_price
             self.override_count += 1
 
         if constraint and constraint not in self.constraints:
             self.constraints.append(constraint)
             self.observed_attributes.update(detect_attributes(constraint))
+        self.excluded_terms.update(excluded_terms)
+        if price_preference:
+            self.price_preference = price_preference
 
         self.intent = classify_intent(message, self.constraints)
         self._infer_needs(message)
@@ -82,6 +102,8 @@ class ConversationState:
             "intent": self.intent,
             "category": self.category,
             "explicit_constraints": list(self.constraints),
+            "excluded_terms": sorted(self.excluded_terms),
+            "price_preference": self.price_preference.as_dict() if self.price_preference else None,
             "hidden_need_hypotheses": [item.as_dict() for item in self.hypotheses],
             "profile_signals": list(self.profile.get("preference_tags", [])),
             "override_count": self.override_count,
