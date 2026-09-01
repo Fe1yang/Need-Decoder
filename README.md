@@ -61,6 +61,8 @@ scripts/inspect_public_session.py
                               labeled development diagnostics
 tests/                        contract, state, text, and evaluator tests
 demo.py                       short end-to-end demonstration
+web_app.py                    local JSON API and web demo server
+web/                          interactive demo interface
 ```
 
 ## Setup
@@ -108,6 +110,30 @@ python3 demo.py --scenario hidden-needs
 python3 demo.py --scenario intent-override
 ```
 
+## Interactive web demo
+
+The browser interface runs the same `Agent` implementation used by the evaluator. It shows the
+conversation state, inferred needs, intent overrides, and the current product shortlist as the
+shopper talks.
+
+After placing the extracted catalog at `data/catalog.jsonl`, start it with:
+
+```bash
+python3 web_app.py
+```
+
+Then open [http://127.0.0.1:8080](http://127.0.0.1:8080). The **Company retreat** and
+**Hot-weather override** buttons replay the two prepared demo conversations; the text box accepts
+new requests. The first launch builds the local FTS5 index and may take about half a minute.
+
+To keep the catalog elsewhere:
+
+```bash
+NEED_DECODER_CATALOG=/path/to/catalog.jsonl python3 web_app.py
+```
+
+The web demo uses Python's standard library and does not add a separate framework or API key.
+
 To inspect one labeled public development session turn by turn:
 
 ```bash
@@ -138,13 +164,6 @@ semantic model on consented interaction data.
 The popularity feature is log-scaled, but it can still favor established products when several
 candidates share the same catalog evidence. Budget and exclusion parsing handles common English
 forms; it is not yet a general semantic parser.
-
-## Submission material
-
-- [Evaluation notes](docs/evaluation_notes.md)
-- [Demo recording script](docs/demo_script.md)
-- [Devpost draft](docs/devpost_draft.md)
-- [Submission checklist](docs/submission_checklist.md)
 
 ## Data attribution
 

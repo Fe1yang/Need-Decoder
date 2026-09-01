@@ -59,7 +59,12 @@ class CatalogSearch:
         batch: list[tuple] = []
         with self.catalog_path.open(encoding="utf-8") as catalog:
             for line in catalog:
-                product = json.loads(line)
+                try:
+                    product = json.loads(line)
+                except json.JSONDecodeError:
+                    # Public data dumps can end with a partially downloaded row.
+                    # One bad record should not make the entire catalogue unusable.
+                    continue
                 batch.append(
                     (
                         str(product["parent_asin"]),

@@ -8,6 +8,27 @@ from need_decoder.state import ConversationState
 
 
 class CatalogSearchTests(unittest.TestCase):
+    def test_skips_a_damaged_catalog_row(self):
+        product = {
+            "parent_asin": "VALID",
+            "title": "Breathable walking shoes",
+            "categories": ["Shoes"],
+            "features": ["Mesh upper"],
+            "price": 60.0,
+            "average_rating": 4.6,
+            "rating_number": 120,
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            catalog_path = Path(directory) / "catalog.jsonl"
+            catalog_path.write_text(
+                json.dumps(product) + "\n" + '{"parent_asin":"BROKEN"\n',
+                encoding="utf-8",
+            )
+
+            search = CatalogSearch(catalog_path)
+
+        self.assertEqual(search.document_count, 1)
+
     def test_budget_and_exclusion_affect_ranking(self):
         products = [
             {

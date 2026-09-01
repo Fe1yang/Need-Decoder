@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Need Decoder turns shopping conversations into explainable product shortlists." />
+    <title>Need Decoder — Shopping Copilot</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">N</span>
+        <div>
+          <strong>Need Decoder</strong>
+          <span>Shopping copilot</span>
+        </div>
+      </div>
+      <div class="status"><span></span> Local · deterministic · explainable</div>
+    </header>
+
+    <main class="workspace">
+      <aside class="brief-panel panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Live brief</p>
+            <h2>What the shopper needs</h2>
+          </div>
+          <button id="reset-button" class="icon-button" type="button" aria-label="Reset conversation">↻</button>
+        </div>
+
+        <section class="intent-card">
+          <span>Current intent</span>
+          <strong id="intent-value">Browsing</strong>
+          <small id="category-value">Waiting for a category</small>
+        </section>
+
+        <section class="state-section">
+          <div class="section-label"><span>Explicit constraints</span><b id="constraint-count">0</b></div>
+          <div id="constraint-list" class="tag-list"><span class="empty-state">Nothing stated yet</span></div>
+        </section>
+
+        <section class="state-section">
+          <div class="section-label"><span>Hidden needs</span><b id="need-count">0</b></div>
+          <div id="need-list" class="need-list"><span class="empty-state">Context will appear here</span></div>
+        </section>
+
+        <section class="state-section compact">
+          <div class="section-label"><span>Conversation memory</span></div>
+          <dl class="memory-grid">
+            <div><dt>Overrides</dt><dd id="override-value">0</dd></div>
+            <div><dt>Budget</dt><dd id="budget-value">Not set</dd></div>
+          </dl>
+        </section>
+      </aside>
+
+      <section class="conversation-panel panel">
+        <div class="panel-heading conversation-heading">
+          <div>
+            <p class="eyebrow">Conversation</p>
+            <h1>Say the situation, not the specification.</h1>
+          </div>
+          <span class="turn-indicator" id="turn-indicator">Turn 0</span>
+        </div>
+
+        <div class="scenario-row" aria-label="Prepared demo scenarios">
+          <button class="scenario-button active" data-scenario="retreat" type="button">Company retreat</button>
+          <button class="scenario-button" data-scenario="override" type="button">Hot-weather override</button>
+        </div>
+
+        <div id="messages" class="messages" aria-live="polite"></div>
+
+        <form id="chat-form" class="composer">
+          <label for="message-input" class="sr-only">Shopping request</label>
+          <input id="message-input" autocomplete="off" placeholder="Tell me what you're shopping for and where you'll use it…" />
+          <button id="send-button" type="submit">Send <span aria-hidden="true">→</span></button>
+        </form>
+      </section>
+
+      <aside class="results-panel panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Ranked shortlist</p>
+            <h2>Recommendations</h2>
+          </div>
+          <span id="result-count" class="result-count">0 products</span>
+        </div>
+        <div id="recommendations" class="recommendations">
+          <div class="results-empty">
+            <span>01</span>
+            <h3>Ready when you are</h3>
+            <p>Recommendations will update as the conversation becomes clearer.</p>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
