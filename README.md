@@ -116,6 +116,10 @@ The browser interface runs the same `Agent` implementation used by the evaluator
 conversation state, inferred needs, intent overrides, and the current product shortlist as the
 shopper talks.
 
+[Open the read-only GitHub preview](https://raw.githack.com/Fe1yang/Need-Decoder/main/web/index.html)
+to inspect the interface and replay two outputs captured from the real agent. Run it locally for
+free-form input and live retrieval.
+
 After placing the extracted catalog at `data/catalog.jsonl`, start it with:
 
 ```bash

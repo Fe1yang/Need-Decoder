@@ -1,0 +1,134 @@
+{
+  "retreat": {
+    "turn": 2,
+    "messages": [
+      {
+        "role": "user",
+        "content": "I'm looking for Men's Walking Shoes. I need them for a company retreat with lots of walking."
+      },
+      {
+        "role": "agent",
+        "content": "Besides that, is there another practical feature that matters?"
+      },
+      {
+        "role": "user",
+        "content": "Some activities are outdoors, but we also have a business-casual dinner."
+      },
+      {
+        "role": "agent",
+        "content": "Do you have a material preference or anything you want to avoid?"
+      }
+    ],
+    "state": {
+      "intent": "buying",
+      "category": "Men's Walking Shoes",
+      "explicit_constraints": [
+        "I need them for a company retreat with lots of walking",
+        "Some activities are outdoors, but we also have a business-casual dinner"
+      ],
+      "price_preference": null,
+      "override_count": 0,
+      "hidden_need_hypotheses": [
+        { "attribute": "style", "value": "business casual professional", "confidence": 0.72, "evidence": "professional setting" },
+        { "attribute": "feature", "value": "comfortable cushioned durable", "confidence": 0.74, "evidence": "extended wear" },
+        { "attribute": "feature", "value": "water resistant non slip", "confidence": 0.78, "evidence": "outdoor activity" },
+        { "attribute": "style", "value": "dress polished versatile", "confidence": 0.68, "evidence": "social occasion" }
+      ]
+    },
+    "recommendations": [
+      {
+        "rank": 1,
+        "parent_asin": "B08R64GJ6Y",
+        "title": "Slow Man Men's Slip On Tennis Shoes - Athletic Walking Casual Non-Slip Sneakers White Size 11",
+        "store": "Slow Man",
+        "price": "Price unavailable",
+        "average_rating": 3.9,
+        "rating_number": 19,
+        "evidence": ["casual", "comfortable", "non"]
+      },
+      {
+        "rank": 2,
+        "parent_asin": "B08R5ZY4W5",
+        "title": "Slow Man Men's Slip On Tennis Shoes - Athletic Walking Casual Non-Slip Sneakers Black/White Size 8",
+        "store": "Slow Man",
+        "price": "Price unavailable",
+        "average_rating": 3.2,
+        "rating_number": 5,
+        "evidence": ["casual", "comfortable", "non"]
+      },
+      {
+        "rank": 3,
+        "parent_asin": "B08BC9JTVX",
+        "title": "WXQ Men's Running Shoes Comfortable Lightweight Breathable Walking Shoes Mesh Workout Casual Sports Shoes",
+        "store": "WXQ",
+        "price": "Price unavailable",
+        "average_rating": 5.0,
+        "rating_number": 5,
+        "evidence": ["casual", "comfortable", "resistant"]
+      }
+    ]
+  },
+  "override": {
+    "turn": 2,
+    "messages": [
+      {
+        "role": "user",
+        "content": "I'm looking for Women's Walking Shoes. I would prefer leather."
+      },
+      {
+        "role": "agent",
+        "content": "Which practical feature matters most to you?"
+      },
+      {
+        "role": "user",
+        "content": "Actually, ignore my earlier preference. What I need is breathable mesh for hot weather."
+      },
+      {
+        "role": "agent",
+        "content": "Besides that, is there another practical feature that matters?"
+      }
+    ],
+    "state": {
+      "intent": "buying",
+      "category": "Women's Walking Shoes",
+      "explicit_constraints": ["breathable mesh for hot weather"],
+      "price_preference": null,
+      "override_count": 1,
+      "hidden_need_hypotheses": [
+        { "attribute": "feature", "value": "lightweight breathable moisture wicking", "confidence": 0.82, "evidence": "warm weather" }
+      ]
+    },
+    "recommendations": [
+      {
+        "rank": 1,
+        "parent_asin": "B09128JC1H",
+        "title": "CUYIOM Women's Walking Shoes Lightweight Running Shoes Outdoor Fashion Sneaker",
+        "store": "CUYIOM",
+        "price": "Price unavailable",
+        "average_rating": 4.2,
+        "rating_number": 521,
+        "evidence": ["lightweight"]
+      },
+      {
+        "rank": 2,
+        "parent_asin": "B08WC1XBS1",
+        "title": "AODONG Walking Shoes for Women, Womens Breathable Sneakers Athletic Running Shoes Slip Ons Lace Up Lightweight Tennis Shoes",
+        "store": "AODONG",
+        "price": "Price unavailable",
+        "average_rating": 3.6,
+        "rating_number": 15,
+        "evidence": ["lightweight"]
+      },
+      {
+        "rank": 3,
+        "parent_asin": "B094QZ1DVZ",
+        "title": "Deevike Running Shoes Women Tennis Walking Non Slip Athletic Fashion Sneaker",
+        "store": "Deevike",
+        "price": "Price unavailable",
+        "average_rating": 3.8,
+        "rating_number": 492,
+        "evidence": ["lightweight"]
+      }
+    ]
+  }
+}

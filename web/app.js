@@ -15,6 +15,9 @@ const state = {
   busy: false,
 };
 
+const hostedPreview = !["localhost", "127.0.0.1"].includes(window.location.hostname);
+let previewData;
+
 const elements = {
   form: document.querySelector("#chat-form"),
   input: document.querySelector("#message-input"),
@@ -149,6 +152,10 @@ function escapeHtml(value) {
 
 async function sendMessage(message) {
   if (!message.trim() || state.busy) return;
+  if (hostedPreview) {
+    addMessage("agent", "The GitHub preview replays verified examples. Run web_app.py locally to try a new request.");
+    return;
+  }
   state.busy = true;
   elements.sendButton.disabled = true;
   addMessage("user", message);
@@ -186,6 +193,17 @@ async function resetConversation() {
       <p>Recommendations will update as the conversation becomes clearer.</p>
     </div>`;
   elements.resultCount.textContent = "0 products";
+  if (hostedPreview) {
+    renderState({
+      intent: "browsing",
+      category: null,
+      explicit_constraints: [],
+      hidden_need_hypotheses: [],
+      override_count: 0,
+      price_preference: null,
+    });
+    return;
+  }
   const result = await api("/api/reset", { session_id: state.sessionId });
   renderState(result.state);
 }
@@ -195,6 +213,16 @@ async function playScenario(name) {
   document.querySelectorAll(".scenario-button").forEach((button) => {
     button.classList.toggle("active", button.dataset.scenario === name);
   });
+  if (hostedPreview) {
+    previewData ||= await fetch("./demo_snapshot.json").then((response) => response.json());
+    const scenario = previewData[name];
+    scenario.messages.forEach((message) => addMessage(message.role, message.content));
+    renderState(scenario.state);
+    renderRecommendations(scenario.recommendations);
+    state.turn = scenario.turn;
+    elements.turn.textContent = `Turn ${state.turn}`;
+    return;
+  }
   for (const message of scenarios[name]) {
     await sendMessage(message);
   }
@@ -210,5 +238,10 @@ elements.resetButton.addEventListener("click", resetConversation);
 document.querySelectorAll(".scenario-button").forEach((button) => {
   button.addEventListener("click", () => playScenario(button.dataset.scenario));
 });
+
+if (hostedPreview) {
+  document.querySelector(".status").innerHTML = "<span></span> GitHub preview · real agent output";
+  elements.input.placeholder = "Run web_app.py locally to enter a new request";
+}
 
 playScenario("retreat");
